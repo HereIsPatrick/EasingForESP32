@@ -21,7 +21,11 @@ enum ease_mode {
 	EASE_IN_OUT_QUART,
 	EASE_IN_QUINT,
 	EASE_OUT_QUINT,
-	EASE_IN_OUT_QUINT
+	EASE_IN_OUT_QUINT,
+
+	EASE_IN_BOUNCE,
+	EASE_OUT_BOUNCE,
+	EASE_IN_OUT_BOUNCE
 };
 
 class Easing
@@ -68,6 +72,10 @@ private:
 	float easeInQuint(float t);
 	float easeOutQuint(float t);
 	float easeInOutQuint(float t);
+
+	float easeInBounce(float t);
+	float easeOutBounce(float t);
+	float easeInOutBounce(float t);
 };
 
 #endif

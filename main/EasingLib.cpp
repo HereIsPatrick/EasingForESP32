@@ -1,13 +1,28 @@
 /***************************************************
-Copyright (c) 2019 Luis Llamas
-(www.luisllamas.es)
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
-Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License
+Description : Easing Library.
+Author : Patrick Chiu.
+
+Reference:
+1. https://github.com/luisllamasbinaburo/Arduino-Easing
+2. https://github.com/nicolausYes/easing-functions
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
  ****************************************************/
  
 #include "EasingLib.h"
 #include "esp_timer.h"
 #include "sdkconfig.h"
+#include <math.h>
 
 Easing::Easing()
 {
@@ -97,16 +112,39 @@ void Easing::SetMode(ease_mode mode)
 	case EASE_IN_QUAD: 		easingFunction = (&Easing::easeInQuad); break;
 	case EASE_OUT_QUAD: 	easingFunction = (&Easing::easeOutQuad); break;
 	case EASE_IN_OUT_QUAD: 	easingFunction = (&Easing::easeInOutQuad); break;
+
 	case EASE_IN_CUBIC: 	easingFunction = (&Easing::easeInCubic); break;
 	case EASE_OUT_CUBIC: 	easingFunction = (&Easing::easeOutCubic); break;
 	case EASE_IN_OUT_CUBIC: easingFunction = (&Easing::easeInOutCubic); break;
+
 	case EASE_IN_QUART: 	easingFunction = (&Easing::easeInQuart); break;
 	case EASE_OUT_QUART: 	easingFunction = (&Easing::easeOutQuart); break;
 	case EASE_IN_OUT_QUART: easingFunction = (&Easing::easeInOutQuart); break;
+
 	case EASE_IN_QUINT: 	easingFunction = (&Easing::easeInQuint); break;
 	case EASE_OUT_QUINT: 	easingFunction = (&Easing::easeOutQuint); break;
 	case EASE_IN_OUT_QUINT: easingFunction = (&Easing::easeInOutQuint); break;
+
+	case EASE_IN_BOUNCE: 	easingFunction = (&Easing::easeInBounce); break;
+	case EASE_OUT_BOUNCE: 	easingFunction = (&Easing::easeOutBounce); break;
+	case EASE_IN_OUT_BOUNCE: easingFunction = (&Easing::easeInOutBounce); break;
 	}
+}
+
+float Easing::easeInBounce( float t ) {
+    return pow( 2, 6 * (t - 1) ) * abs( sin( t * M_PI * 3.5 ) );
+}
+
+float Easing::easeOutBounce( float t ) {
+    return 1 - pow( 2, -6 * t ) * abs( cos( t * M_PI * 3.5 ) );
+}
+
+float Easing::easeInOutBounce( float t ) {
+    if( t < 0.5 ) {
+        return 8 * pow( 2, 8 * (t - 1) ) * abs( sin( t * M_PI * 7 ) );
+    } else {
+        return 1 - 8 * pow( 2, -8 * t ) * abs( sin( t * M_PI * 7 ) );
+    }
 }
 
 
@@ -121,8 +159,8 @@ float Easing::easeInOutQuad(float t) { return t < .5 ? 2 * t * t : -1 + (4 - 2 *
 float Easing::easeInCubic(float t) { return t * t * t; }
 
 float Easing::easeOutCubic(float t) {
-	float d=--t;
-	return d * t * t + 1;
+	float tt=--t;
+	return tt * t * t + 1;
 }
 
 float Easing::easeInOutCubic(float t) { return t < .5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1; }
@@ -130,8 +168,8 @@ float Easing::easeInOutCubic(float t) { return t < .5 ? 4 * t * t * t : (t - 1) 
 float Easing::easeInQuart(float t) { return t * t * t * t; }
 
 float Easing::easeOutQuart(float t) {
-	float d = t--;
-	return 1 - d * t * t * t;
+	float tt = t--;
+	return 1 - tt * t * t * t;
 }
 
 float Easing::easeInOutQuart(float t) {
@@ -142,11 +180,11 @@ float Easing::easeInOutQuart(float t) {
 float Easing::easeInQuint(float t) { return t * t * t * t * t; }
 
 float Easing::easeOutQuint(float t) {
-	float d= --t;
-	return 1 + d * t * t * t * t;
+	float tt= --t;
+	return 1 + tt * t * t * t * t;
 }
 
 float Easing::easeInOutQuint(float t) {
-	float d= --t;
-	return t < .5 ? 16 * t * t * t * t * t : 1 + 16 * d * t * t * t * t;
+	float tt= --t;
+	return t < .5 ? 16 * t * t * t * t * t : 1 + 16 * tt * t * t * t * t;
 }
