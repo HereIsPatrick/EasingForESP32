@@ -14,9 +14,9 @@ void app_main(void)
     //printf("Easing Test\n");
 
 	int values[8] = { 0, 1000, 4000, 2000, 1000, 3000, 5000, 1000 };
-	Easing* easing1 = new Easing(EASE_IN_BOUNCE,1000);
-	Easing* easing2 = new Easing(EASE_OUT_BOUNCE,1000);
-	Easing* easing3 = new Easing(EASE_IN_OUT_BOUNCE,1000);
+	Easing* easing1 = new Easing(EASE_IN_BACK,1000);
+	Easing* easing2 = new Easing(EASE_OUT_BACK,1000);
+	Easing* easing3 = new Easing(EASE_IN_OUT_BACK,1000);
 
 
 	while(1)

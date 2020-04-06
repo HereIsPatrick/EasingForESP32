@@ -128,6 +128,10 @@ void Easing::SetMode(ease_mode mode)
 	case EASE_IN_BOUNCE: 	easingFunction = (&Easing::easeInBounce); break;
 	case EASE_OUT_BOUNCE: 	easingFunction = (&Easing::easeOutBounce); break;
 	case EASE_IN_OUT_BOUNCE: easingFunction = (&Easing::easeInOutBounce); break;
+
+	case EASE_IN_BACK: 	easingFunction = (&Easing::easeInBack); break;
+	case EASE_OUT_BACK: 	easingFunction = (&Easing::easeOutBack); break;
+	case EASE_IN_OUT_BACK: easingFunction = (&Easing::easeInOutBack); break;
 	}
 }
 
@@ -144,6 +148,24 @@ float Easing::easeInOutBounce( float t ) {
         return 8 * pow( 2, 8 * (t - 1) ) * abs( sin( t * M_PI * 7 ) );
     } else {
         return 1 - 8 * pow( 2, -8 * t ) * abs( sin( t * M_PI * 7 ) );
+    }
+}
+
+float Easing::easeInBack( float t ) {
+    return t * t * (2.70158 * t - 1.70158);
+}
+
+float Easing::easeOutBack( float t ) {
+	float tt = --t;
+    return 1 + tt * t * (2.70158 * t + 1.70158);
+}
+
+float Easing::easeInOutBack( float t ) {
+    if( t < 0.5 ) {
+        return t * t * (7 * t - 2.5) * 2;
+    } else {
+    	float tt = --t;
+        return 1 + tt * t * 2 * (7 * t + 2.5);
     }
 }
 
