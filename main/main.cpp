@@ -6,22 +6,33 @@
 #include "esp_system.h"
 #include "esp_spi_flash.h"
 #include "EasingLib.h"
+#include <string>
+#include <vector>
 
 extern "C" void app_main();
 
+typedef struct {
+     std::string name;
+     Easing e;
+ } EASING;
+
+#define DURATION 1000 //ms
+
 void app_main(void)
 {
-    //printf("Easing Test\n");
-
 	int values[8] = { 0, 4000, 1000, 3000, 2000, 3000, 1000, 5000 };
-	Easing* easing1 = new Easing(EASE_IN_BACK,1000);
-	Easing* easing2 = new Easing(EASE_OUT_BACK,1000);
-	Easing* easing3 = new Easing(EASE_IN_OUT_BACK,1000);
 
+	std::vector<EASING> v;
+	v.push_back({"in_back",Easing(EASE_IN_BACK,DURATION)});
+	v.push_back({"out_back",Easing(EASE_OUT_BACK,DURATION)});
+	v.push_back({"in/out_back",Easing(EASE_IN_OUT_BACK,DURATION)});
 
 	while(1)
 	{
-		printf("target , in,out,in_and_out\n");
+		char legend[32]="";
+		sprintf(legend, "target, %s, %s, %s", v[0].name.c_str(), v[1].name.c_str(), v[2].name.c_str());
+		printf("%s\n",legend);
+
 		for(auto i = 0; i < 240; i++)
 		{
 			auto index = i / 30;
@@ -29,11 +40,11 @@ void app_main(void)
 
 			printf("%f", newValue);
 			printf(",");
-			printf("%f", easing1->SetSetpoint(newValue));
+			printf("%f", v[0].e.SetSetpoint(newValue));
 			printf(",");
-			printf("%f", easing2->SetSetpoint(newValue));
+			printf("%f", v[1].e.SetSetpoint(newValue));
 			printf(",");
-			printf("%f", easing3->SetSetpoint(newValue));
+			printf("%f", v[2].e.SetSetpoint(newValue));
 			printf("\n");
 
 			vTaskDelay(50 / portTICK_PERIOD_MS);
