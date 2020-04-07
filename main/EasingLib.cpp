@@ -272,16 +272,26 @@ float Easing::easeOutCubic(float t) {
 
 float Easing::easeInOutCubic(float t) { return t < .5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1; }
 
-float Easing::easeInQuart(float t) { return t * t * t * t; }
+float Easing::easeInQuart(float t) {
+    t *= t;
+    return t * t;
+}
 
 float Easing::easeOutQuart(float t) {
-	float tt = t--;
-	return 1 - tt * t * t * t;
+	float tt = --t;
+    t = tt * t;
+    return 1 - t * t;
 }
 
 float Easing::easeInOutQuart(float t) {
-	float d= --t;
-	return t < .5 ? 8 * t * t * t * t : 1 - 8 * d * t * t * t;
+    if( t < 0.5 ) {
+        t *= t;
+        return 8 * t * t;
+    } else {
+    	float tt = --t;
+        t = tt * t;
+        return 1 - 8 * t * t;
+    }
 }
 
 float Easing::easeInQuint(float t) { return t * t * t * t * t; }
@@ -292,6 +302,14 @@ float Easing::easeOutQuint(float t) {
 }
 
 float Easing::easeInOutQuint(float t) {
-	float tt= --t;
-	return t < .5 ? 16 * t * t * t * t * t : 1 + 16 * tt * t * t * t * t;
+	// reference : https://github.com/component/ease/blob/master/index.js
+	t *= 2;
+	if (t < 1)
+		return 0.5 * t * t * t * t;
+	else
+	{
+		float tt = t-=2;
+		//t-=2;
+		return -0.5 * (tt * t * t * t - 2);
+	}
 }
