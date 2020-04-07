@@ -13,7 +13,7 @@ void app_main(void)
 {
     //printf("Easing Test\n");
 
-	int values[8] = { 0, 1000, 4000, 2000, 1000, 3000, 5000, 1000 };
+	int values[8] = { 0, 4000, 1000, 3000, 2000, 3000, 1000, 5000 };
 	Easing* easing1 = new Easing(EASE_IN_BACK,1000);
 	Easing* easing2 = new Easing(EASE_OUT_BACK,1000);
 	Easing* easing3 = new Easing(EASE_IN_OUT_BACK,1000);
@@ -21,6 +21,7 @@ void app_main(void)
 
 	while(1)
 	{
+		printf("target , in,out,in_and_out\n");
 		for(auto i = 0; i < 240; i++)
 		{
 			auto index = i / 30;

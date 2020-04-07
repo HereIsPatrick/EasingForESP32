@@ -109,6 +109,11 @@ void Easing::SetMode(ease_mode mode)
 	switch (mode)
 	{
 	case LINEAR: 			easingFunction = (&Easing::linear); break;
+
+	case EASE_IN_SINE: 		easingFunction = (&Easing::easeInSine); break;
+	case EASE_OUT_SINE: 	easingFunction = (&Easing::easeOutSine); break;
+	case EASE_IN_OUT_SINE: 	easingFunction = (&Easing::easeInOutSine); break;
+
 	case EASE_IN_QUAD: 		easingFunction = (&Easing::easeInQuad); break;
 	case EASE_OUT_QUAD: 	easingFunction = (&Easing::easeOutQuad); break;
 	case EASE_IN_OUT_QUAD: 	easingFunction = (&Easing::easeInOutQuad); break;
@@ -125,14 +130,94 @@ void Easing::SetMode(ease_mode mode)
 	case EASE_OUT_QUINT: 	easingFunction = (&Easing::easeOutQuint); break;
 	case EASE_IN_OUT_QUINT: easingFunction = (&Easing::easeInOutQuint); break;
 
-	case EASE_IN_BOUNCE: 	easingFunction = (&Easing::easeInBounce); break;
-	case EASE_OUT_BOUNCE: 	easingFunction = (&Easing::easeOutBounce); break;
-	case EASE_IN_OUT_BOUNCE: easingFunction = (&Easing::easeInOutBounce); break;
+	case EASE_IN_EXPO: 	easingFunction = (&Easing::easeInExpo); break;
+	case EASE_OUT_EXPO: 	easingFunction = (&Easing::easeOutExpo); break;
+	case EASE_IN_OUT_EXPO: easingFunction = (&Easing::easeInOutExpo); break;
+
+	case EASE_IN_CIRC: 	easingFunction = (&Easing::easeInCirc); break;
+	case EASE_OUT_CIRC: 	easingFunction = (&Easing::easeOutCirc); break;
+	case EASE_IN_OUT_CIRC: easingFunction = (&Easing::easeInOutCirc); break;
 
 	case EASE_IN_BACK: 	easingFunction = (&Easing::easeInBack); break;
 	case EASE_OUT_BACK: 	easingFunction = (&Easing::easeOutBack); break;
 	case EASE_IN_OUT_BACK: easingFunction = (&Easing::easeInOutBack); break;
+
+	case EASE_IN_ELASTIC: 	easingFunction = (&Easing::easeInElastic); break;
+	case EASE_OUT_ELASTIC: 	easingFunction = (&Easing::easeOutElastic); break;
+	case EASE_IN_OUT_ELASTIC: easingFunction = (&Easing::easeInOutElastic); break;
+
+	case EASE_IN_BOUNCE: 	easingFunction = (&Easing::easeInBounce); break;
+	case EASE_OUT_BOUNCE: 	easingFunction = (&Easing::easeOutBounce); break;
+	case EASE_IN_OUT_BOUNCE: easingFunction = (&Easing::easeInOutBounce); break;
 	}
+}
+
+float Easing::easeInElastic( float t ) {
+    double t2 = t * t;
+    return t2 * t2 * sin( t * M_PI * 4.5 );
+}
+
+float Easing::easeOutElastic( float t ) {
+    double t2 = (t - 1) * (t - 1);
+    return 1 - t2 * t2 * cos( t * M_PI * 4.5 );
+}
+
+float Easing::easeInOutElastic( float t ) {
+    double t2;
+    if( t < 0.45 ) {
+        t2 = t * t;
+        return 8 * t2 * t2 * sin( t * M_PI * 9 );
+    } else if( t < 0.55 ) {
+        return 0.5 + 0.75 * sin( t * M_PI * 4 );
+    } else {
+        t2 = (t - 1) * (t - 1);
+        return 1 - 8 * t2 * t2 * sin( t * M_PI * 9 );
+    }
+}
+
+
+float Easing::easeInCirc( float t ) {
+    return 1 - sqrt( 1 - t );
+}
+
+float Easing::easeOutCirc( float t ) {
+    return sqrt( t );
+}
+
+float Easing::easeInOutCirc( float t ) {
+    if( t < 0.5 ) {
+        return (1 - sqrt( 1 - 2 * t )) * 0.5;
+    } else {
+        return (1 + sqrt( 2 * t - 1 )) * 0.5;
+    }
+}
+
+float Easing::easeInExpo( float t ) {
+    return (pow( 2, 8 * t ) - 1) / 255;
+}
+
+float Easing::easeOutExpo( float t ) {
+    return 1 - pow( 2, -8 * t );
+}
+
+float Easing::easeInOutExpo( float t ) {
+    if( t < 0.5 ) {
+        return (pow( 2, 16 * t ) - 1) / 510;
+    } else {
+        return 1 - 0.5 * pow( 2, -16 * (t - 0.5) );
+    }
+}
+
+float Easing::easeInSine( float t ) {
+	return sin( 1.5707963 * t );
+}
+
+float Easing::easeOutSine( float t ) {
+	return 1 + sin( 1.5707963 * (--t) );
+}
+
+float Easing::easeInOutSine( float t ) {
+	return 0.5 * (1 + sin( 3.1415926 * (t - 0.5) ) );
 }
 
 float Easing::easeInBounce( float t ) {
