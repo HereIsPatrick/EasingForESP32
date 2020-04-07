@@ -1,11 +1,16 @@
 ![alt text](./images/easing.gif)
 # Easing functions for ESP32
-
 Easing function is beautifuly thing. In real world, everything's movements are not constant speed.
 
 Easing function can make our design become humanity, better user experience.
 
 We can use it in animations. Lots of easing function have been applying in GUI(Graphics User Interface). 
+
+## Example setup & exectue.
+1. git pull this repo.
+2. Use ESP32 IDF to compile source code for this respo.
+3. Flash the image binary file to your ESP32 controller.
+4. Visual Information was get from 'Arduino Serial Plotter' 
 
 There are 33 easing functions for ESP32. 
 	
