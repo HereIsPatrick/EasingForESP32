@@ -1,10 +1,10 @@
 ![alt text](./images/easing.gif)
 # Easing functions for ESP32
-Easing function is beautifuly thing. In real world, everything's movements are not constant speed.
+Easing function is beautiful thing. In real world, everything's movements are not constant speed.
 
-Easing function can make our design become humanity, better user experience.
+It can make our design become humanity, better user experience.
 
-We can use it in animations. Lots of easing function have been applying in GUI(Graphics User Interface). 
+We can use it in animations and slides transitions. Lots of the easing function have been applying in GUI(Graphics User Interface). 
 
 ## Example setup & exectue.
 1. git pull this repo.
